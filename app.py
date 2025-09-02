@@ -232,14 +232,14 @@ def server(input: Inputs, output: Outputs, session: Session):
         </important>
     """
 
-    if CHATLAS_CHAT_PROVIDER and not HAS_BD_CREDENTIALS:
+    if CHATLAS_CHAT_PROVIDER and not HAS_DB_CREDENTIALS:
         # This will pull its configuration from environment variables
         # CHATLAS_CHAT_PROVIDER and CHATLAS_CHAT_ARGS
         chat = ChatAuto(
             system_prompt=system_prompt,
         )
 
-    if HAS_BD_CREDENTIALS:
+    if HAS_DB_CREDENTIALS:
         # Use ChatBedrockAnthropic for internal use
         chat = ChatDatabricks(
             model="system.ai.mistral_7b_instruct_v0_2",
