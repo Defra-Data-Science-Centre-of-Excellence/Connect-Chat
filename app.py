@@ -16,6 +16,7 @@ def check_databricks_credentials():
             model="MT_testing2"
         )
         chat.chat("test", echo="none")
+        print('ChatDatabricks =True')
         return True
     except Exception as e:
         print(
