@@ -243,7 +243,7 @@ def server(input: Inputs, output: Outputs, session: Session):
     if HAS_DB_CREDENTIALS:
         # Use ChatBedrockAnthropic for internal use
         chat = ChatDatabricks(
-            model="system.ai.mistral_7b_instruct_v0_2",
+            model="MT_testing2",
             system_prompt=system_prompt,
         )
 
