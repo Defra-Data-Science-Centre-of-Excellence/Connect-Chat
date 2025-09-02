@@ -13,7 +13,9 @@ def check_databricks_credentials():
     # that can be used to access Bedrock
     try:
         chat = ChatDatabricks(
-            model="https://adb-2353967604677522.2.azuredatabricks.net/serving-endpoints/MT_testing2/invocations",
+            endpoint="system.ai.mistral_7b_instruct_v0_2",
+            temperature=0.1,
+            max_tokens=256
         )
         chat.chat("test", echo="none")
         return True
