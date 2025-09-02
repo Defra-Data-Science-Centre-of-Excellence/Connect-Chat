@@ -2,25 +2,24 @@ import os
 from posit import connect
 from posit.connect.content import ContentItem
 from posit.connect.errors import ClientError
-from chatlas import ChatAuto, ChatBedrockAnthropic, Turn
+from chatlas import ChatAuto, ChatDatabricks, Turn
 import markdownify
 from shiny import App, Inputs, Outputs, Session, ui, reactive, render
 
 from helpers import time_since_deployment
 
-
-def check_aws_bedrock_credentials():
+def check_databricks_credentials():
     # Check if AWS credentials are available in the environment
     # that can be used to access Bedrock
     try:
-        chat = ChatBedrockAnthropic(
-            model="us.anthropic.claude-sonnet-4-20250514-v1:0",
+        chat = ChatDatabricks(
+            model="system.ai.mistral_7b_instruct_v0_2"
         )
         chat.chat("test", echo="none")
         return True
     except Exception as e:
         print(
-            f"AWS Bedrock credentials check failed and will fallback to checking for values for the CHATLAS_CHAT_PROVIDER and CHATLAS_CHAT_ARGS env vars. Err: {e}"
+            f"Databricks credentials check failed and will fallback to checking for values for the CHATLAS_CHAT_PROVIDER and CHATLAS_CHAT_ARGS env vars. Err: {e}"
         )
         return False
 
@@ -195,7 +194,7 @@ screen_ui = ui.page_output("screen")
 
 CHATLAS_CHAT_PROVIDER = os.getenv("CHATLAS_CHAT_PROVIDER")
 CHATLAS_CHAT_ARGS = os.getenv("CHATLAS_CHAT_ARGS")
-HAS_AWS_CREDENTIALS = check_aws_bedrock_credentials()
+HAS_DB_CREDENTIALS = check_databricks_credentials()
 
 
 def server(input: Inputs, output: Outputs, session: Session):
@@ -233,24 +232,24 @@ def server(input: Inputs, output: Outputs, session: Session):
         </important>
     """
 
-    if CHATLAS_CHAT_PROVIDER and not HAS_AWS_CREDENTIALS:
+    if CHATLAS_CHAT_PROVIDER and not HAS_BD_CREDENTIALS:
         # This will pull its configuration from environment variables
         # CHATLAS_CHAT_PROVIDER and CHATLAS_CHAT_ARGS
         chat = ChatAuto(
             system_prompt=system_prompt,
         )
 
-    if HAS_AWS_CREDENTIALS:
+    if HAS_BD_CREDENTIALS:
         # Use ChatBedrockAnthropic for internal use
-        chat = ChatBedrockAnthropic(
-            model="us.anthropic.claude-sonnet-4-20250514-v1:0",
+        chat = ChatDatabricks(
+            model="system.ai.mistral_7b_instruct_v0_2",
             system_prompt=system_prompt,
         )
 
     @render.ui
     def screen():
         if (
-            CHATLAS_CHAT_PROVIDER is None and not HAS_AWS_CREDENTIALS
+            CHATLAS_CHAT_PROVIDER is None and not HAS_DB_CREDENTIALS
         ) or not VISITOR_API_INTEGRATION_ENABLED:
             return setup_ui
         else:
