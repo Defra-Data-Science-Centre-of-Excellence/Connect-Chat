@@ -211,6 +211,7 @@ def server(input: Inputs, output: Outputs, session: Session):
         if user_session_token:
             try:
                 client = client.with_user_session_token(user_session_token)
+                print('Client worked!')
             except ClientError as err:
                 if err.error_code == 212:
                     VISITOR_API_INTEGRATION_ENABLED = False
