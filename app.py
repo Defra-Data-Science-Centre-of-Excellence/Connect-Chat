@@ -26,7 +26,9 @@ def check_databricks_credentials():
 
 
 def fetch_connect_content_list(client: connect.Client):
+    print('Fetching content list.')
     content_list: list[ContentItem] = client.content.find(include=["owner", "tags"])
+    print(content_list)
     app_modes = ["jupyter-static", "quarto-static", "rmd-static", "static"]
     filtered_content_list = []
     for content in content_list:
