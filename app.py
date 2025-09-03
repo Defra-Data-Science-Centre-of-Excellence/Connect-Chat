@@ -214,6 +214,7 @@ def server(input: Inputs, output: Outputs, session: Session):
         user_session_token = session.http_conn.headers.get(
             "Posit-Connect-User-Session-Token"
         )
+        print(user_session_token)
         if user_session_token:
             try:
                 client = client.with_user_session_token(user_session_token)
