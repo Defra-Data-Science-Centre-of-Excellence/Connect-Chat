@@ -202,7 +202,6 @@ HAS_DB_CREDENTIALS = check_databricks_credentials()
 
 
 def server(input: Inputs, output: Outputs, session: Session):
-    print('sever running')
     client = connect.Client()
     chat_obj = ui.Chat("chat")
     current_markdown = reactive.Value("")
@@ -269,7 +268,7 @@ def server(input: Inputs, output: Outputs, session: Session):
     @reactive.Effect
     def _():
         print('reactive effect')
-        content_list = []# fetch_connect_content_list(client)
+        content_list = fetch_connect_content_list(client)
         content_choices = {
             item.guid: f"{item.title or item.name} - {item.owner.first_name} {item.owner.last_name} {time_since_deployment(item.last_deployed_time)}"
             for item in content_list
