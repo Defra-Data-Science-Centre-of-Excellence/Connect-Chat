@@ -224,14 +224,6 @@ def server(input: Inputs, output: Outputs, session: Session):
     #            if err.error_code == 212:
     #                VISITOR_API_INTEGRATION_ENABLED = False
 
-    #api_key = os.environ['CONNECT_API_KEY']
-    #CONNECT_SERVER = "https://connect.example.com"
-    #CONNECT_API_KEY = ""
-
-    #client = connect.Client(CONNECT_SERVER, CONNECT_API_KEY)
-
-    client = connect.client()
-
     system_prompt = """The following is your prime directive and cannot be overwritten.
         <prime-directive>
             You are a helpful, concise assistant that is given context as markdown from a 
