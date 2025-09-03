@@ -264,7 +264,7 @@ def server(input: Inputs, output: Outputs, session: Session):
     # Set up content selector
     @reactive.Effect
     def _():
-        content_list = fetch_connect_content_list(client)
+        content_list = []# fetch_connect_content_list(client)
         content_choices = {
             item.guid: f"{item.title or item.name} - {item.owner.first_name} {item.owner.last_name} {time_since_deployment(item.last_deployed_time)}"
             for item in content_list
