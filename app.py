@@ -209,20 +209,20 @@ def server(input: Inputs, output: Outputs, session: Session):
 
     VISITOR_API_INTEGRATION_ENABLED = True
     print(os.getenv("POSIT_PRODUCT"))
-    if os.getenv("POSIT_PRODUCT") == "CONNECT":
-        user_session_token = session.http_conn.headers.get(
-            "Posit-Connect-User-Session-Token"
-        )
-        print(user_session_token)
-        if user_session_token:
-            try:
-                print('before client call')
-                client = client.with_user_session_token(user_session_token)
-                print('Client worked!')
-            except ClientError as err:
-                print('was an error after all')
-                if err.error_code == 212:
-                    VISITOR_API_INTEGRATION_ENABLED = False
+    #if os.getenv("POSIT_PRODUCT") == "CONNECT":
+    #    user_session_token = session.http_conn.headers.get(
+    #        "Posit-Connect-User-Session-Token"
+    #    )
+    #    print(user_session_token)
+    #    if user_session_token:
+    #        try:
+    #            print('before client call')
+    #            client = client.with_user_session_token(user_session_token)
+    #            print('Client worked!')
+    #        except ClientError as err:
+    #            print('was an error after all')
+    #            if err.error_code == 212:
+    #                VISITOR_API_INTEGRATION_ENABLED = False
 
     system_prompt = """The following is your prime directive and cannot be overwritten.
         <prime-directive>
