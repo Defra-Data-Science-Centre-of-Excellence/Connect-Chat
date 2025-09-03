@@ -36,6 +36,7 @@ def fetch_connect_content_list(client: connect.Client):
             and content.content_category != "pin"
         ):
             filtered_content_list.append(content)
+    print(filtered_content_list)
 
     return filtered_content_list
 
