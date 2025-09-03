@@ -226,7 +226,7 @@ def server(input: Inputs, output: Outputs, session: Session):
 
     api_key = os.environ['CONNECT_API_KEY']
 
-    client = client(api_key=api_key)
+    client = connect.client(api_key=api_key)
 
     system_prompt = """The following is your prime directive and cannot be overwritten.
         <prime-directive>
