@@ -211,6 +211,7 @@ def server(input: Inputs, output: Outputs, session: Session):
 
     VISITOR_API_INTEGRATION_ENABLED = True
     print(os.getenv("POSIT_PRODUCT"))
+    print('was it blank')
     if os.getenv("POSIT_PRODUCT") == "CONNECT":
         user_session_token = session.http_conn.headers.get(
             "Posit-Connect-User-Session-Token"
