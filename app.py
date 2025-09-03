@@ -202,6 +202,7 @@ HAS_DB_CREDENTIALS = check_databricks_credentials()
 
 
 def server(input: Inputs, output: Outputs, session: Session):
+    print('sever running')
     client = connect.Client()
     chat_obj = ui.Chat("chat")
     current_markdown = reactive.Value("")
