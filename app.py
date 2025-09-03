@@ -219,6 +219,7 @@ def server(input: Inputs, output: Outputs, session: Session):
         print(user_session_token)
         if user_session_token:
             try:
+                print('before client call')
                 client = client.with_user_session_token(user_session_token)
                 print('Client worked!')
             except ClientError as err:
