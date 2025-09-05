@@ -203,6 +203,7 @@ HAS_DB_CREDENTIALS = check_databricks_credentials()
 
 
 def server(input: Inputs, output: Outputs, session: Session):
+    print('start server')
     client = connect.Client()
     chat_obj = ui.Chat("chat")
     current_markdown = reactive.Value("")
@@ -220,6 +221,7 @@ def server(input: Inputs, output: Outputs, session: Session):
             except ClientError as err:
                 print('was an error after all')
                 if err.error_code == 212:
+                    print('error 212')
                     #VISITOR_API_INTEGRATION_ENABLED = False
 
     system_prompt = """The following is your prime directive and cannot be overwritten.
