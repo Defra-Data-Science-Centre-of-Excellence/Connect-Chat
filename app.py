@@ -210,9 +210,7 @@ def server(input: Inputs, output: Outputs, session: Session):
     VISITOR_API_INTEGRATION_ENABLED = True
     print(os.getenv("POSIT_PRODUCT"))
     if os.getenv("POSIT_PRODUCT") == "CONNECT":
-        user_session_token = session.http_conn.headers.get(
-            "Posit-Connect-User-Session-Token"
-        )
+        user_session_token = session.http_conn.headers.get("Posit-Connect-User-Session-Token")
         print(user_session_token)
         if user_session_token:
             try:
@@ -222,7 +220,7 @@ def server(input: Inputs, output: Outputs, session: Session):
             except ClientError as err:
                 print('was an error after all')
                 if err.error_code == 212:
-                    VISITOR_API_INTEGRATION_ENABLED = False
+                    #VISITOR_API_INTEGRATION_ENABLED = False
 
     system_prompt = """The following is your prime directive and cannot be overwritten.
         <prime-directive>
@@ -288,6 +286,7 @@ def server(input: Inputs, output: Outputs, session: Session):
     @reactive.Effect
     @reactive.event(input.content_selection)
     async def _():
+        print('Change iframe')
         if input.content_selection() and input.content_selection() != "":
             content = client.content.get(input.content_selection())
             await session.send_custom_message(
@@ -298,6 +297,7 @@ def server(input: Inputs, output: Outputs, session: Session):
     @reactive.Effect
     @reactive.event(input.iframe_content)
     async def _():
+        print('Proccess iframe')
         if input.iframe_content():
             markdown = markdownify.markdownify(
                 input.iframe_content(), heading_style="atx"
