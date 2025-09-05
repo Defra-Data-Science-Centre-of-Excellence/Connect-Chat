@@ -218,7 +218,7 @@ def server(input: Inputs, output: Outputs, session: Session):
         if user_session_token:
             try:
                 print('before client call')
-                client = client.with_user_session_token(user_session_token)
+                client = client.with_user_session_token(user_session_token, audience="09a89058-5c4e-4960-9978-12ff7e82d887")
                 print('Client worked!')
             except ClientError as err:
                 print('was an error after all')
@@ -294,6 +294,7 @@ def server(input: Inputs, output: Outputs, session: Session):
         if input.content_selection() and input.content_selection() != "":
             print('trying to Change iframe')
             content = client.content.get(input.content_selection())
+            print(content.content_url)
             await session.send_custom_message(
                 "update-iframe", {"url": content.content_url}
             )
