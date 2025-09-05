@@ -213,6 +213,8 @@ def server(input: Inputs, output: Outputs, session: Session):
     if os.getenv("POSIT_PRODUCT") == "CONNECT":
         user_session_token = session.http_conn.headers.get("Posit-Connect-User-Session-Token")
         print(user_session_token)
+        integrations = client.oauth.integrations.find()
+        print(integrations)
         if user_session_token:
             try:
                 print('before client call')
@@ -301,6 +303,7 @@ def server(input: Inputs, output: Outputs, session: Session):
     @reactive.event(input.iframe_content)
     async def _():
         print('might Proccess iframe')
+        print(input.iframe_content)
         if input.iframe_content():
             print('trying to Proccess iframe')
             markdown = markdownify.markdownify(
