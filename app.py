@@ -288,8 +288,9 @@ def server(input: Inputs, output: Outputs, session: Session):
     @reactive.Effect
     @reactive.event(input.content_selection)
     async def _():
-        print('Change iframe')
+        print('might Change iframe')
         if input.content_selection() and input.content_selection() != "":
+            print('trying to Change iframe')
             content = client.content.get(input.content_selection())
             await session.send_custom_message(
                 "update-iframe", {"url": content.content_url}
@@ -299,8 +300,9 @@ def server(input: Inputs, output: Outputs, session: Session):
     @reactive.Effect
     @reactive.event(input.iframe_content)
     async def _():
-        print('Proccess iframe')
+        print('might Proccess iframe')
         if input.iframe_content():
+            print('trying to Proccess iframe')
             markdown = markdownify.markdownify(
                 input.iframe_content(), heading_style="atx"
             )
@@ -319,6 +321,7 @@ def server(input: Inputs, output: Outputs, session: Session):
     # Handle chat messages
     @chat_obj.on_user_submit
     async def _(message):
+        print('submit')
         response = await chat.stream_async(message)
         await chat_obj.append_message_stream(response)
 
