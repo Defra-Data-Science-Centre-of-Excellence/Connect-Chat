@@ -291,8 +291,10 @@ def server(input: Inputs, output: Outputs, session: Session):
             print('trying to Change iframe')
             content = client.content.get(input.content_selection())
             print(content.content_url)
+            page = content.content_url.replace('http://10.179.4.74:3939','https://dash-connect-pre.azure.defra.cloud')
+            print(page)
             await session.send_custom_message(
-                "update-iframe", {"url": content.content_url}
+                "update-iframe", {"url": page}
             )
 
     # Process iframe content when it changes
