@@ -28,8 +28,6 @@ def check_databricks_credentials():
 def fetch_connect_content_list(client: connect.Client):
     print('Fetching content list.')
     content_list: list[ContentItem] = client.content.find(include=["owner", "tags"])
-    print('This is the content list:')
-    print(content_list)
     app_modes = ["jupyter-static", "quarto-static", "rmd-static", "static"]
     filtered_content_list = []
     for content in content_list:
@@ -39,7 +37,6 @@ def fetch_connect_content_list(client: connect.Client):
             and content.content_category != "pin"
         ):
             filtered_content_list.append(content)
-    print(filtered_content_list)
 
     return filtered_content_list
 
@@ -209,7 +206,6 @@ def server(input: Inputs, output: Outputs, session: Session):
     current_markdown = reactive.Value("")
 
     VISITOR_API_INTEGRATION_ENABLED = True
-    print(os.getenv("POSIT_PRODUCT"))
     if os.getenv("POSIT_PRODUCT") == "CONNECT":
         user_session_token = session.http_conn.headers.get("Posit-Connect-User-Session-Token")
         print(user_session_token)
@@ -218,7 +214,7 @@ def server(input: Inputs, output: Outputs, session: Session):
         if user_session_token:
             try:
                 print('before client call')
-                client = client.with_user_session_token(user_session_token, audience="09a89058-5c4e-4960-9978-12ff7e82d887")
+                client = client.with_user_session_token(user_session_token)
                 print('Client worked!')
             except ClientError as err:
                 print('was an error after all')
