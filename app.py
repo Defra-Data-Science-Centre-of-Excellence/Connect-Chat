@@ -29,9 +29,8 @@ app_ui = ui.page_sidebar(
     ui.sidebar(
         ui.panel_title("Chat with content"),
         ui.p(
-            "Use this app to select content and ask questions about it. It currently supports static/rendered content."
-            "Only the content displayed is available to the LLM."
-            "The LLMs used here are provisioned on Databricks clusters in the UK."
+            "Use this app to select content and ask questions about it. It currently supports static/rendered content. "
+            "Only the content displayed is available to the LLMs. The LLMs are provisioned on Databricks clusters in the UK."
         ),
         ui.input_selectize("content_selection", "", choices=[], width="100%"),
         ui.chat_ui(
