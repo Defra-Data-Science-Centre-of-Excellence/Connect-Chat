@@ -9,8 +9,9 @@ from shiny import App, Inputs, Outputs, Session, ui, reactive, render
 from helpers import time_since_deployment
 
 def check_databricks_credentials():
-    # Check if AWS credentials are available in the environment
-    # that can be used to access Bedrock
+    # Check if Databricks credentials are available in the environment
+    # that can be used to access Databricks LLMs
+    # THis test can probably be removed if this is guaranteed
     try:
         chat = ChatDatabricks(
             model="MT_testing2"
@@ -158,6 +159,8 @@ app_ui = ui.page_sidebar(
         ui.panel_title("Chat with content"),
         ui.p(
             "Use this app to select content and ask questions about it. It currently supports static/rendered content."
+            "Only the content displayed is available to the LLM."
+            "The LLMs used here are provisioned on Databricks clusters in the UK."
         ),
         ui.input_selectize("content_selection", "", choices=[], width="100%"),
         ui.chat_ui(
@@ -291,6 +294,7 @@ def server(input: Inputs, output: Outputs, session: Session):
             print('trying to Change iframe')
             content = client.content.get(input.content_selection())
             print(content.content_url)
+            # Problem with gatwway is means IP needs replaced with gateway here
             page = content.content_url.replace('http://10.179.4.74:3939','https://dash-connect-pre.azure.defra.cloud')
             print(page)
             await session.send_custom_message(
