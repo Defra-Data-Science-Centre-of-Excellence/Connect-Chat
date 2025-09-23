@@ -8,6 +8,13 @@ from shiny import App, Inputs, Outputs, Session, ui, reactive, render
 
 from helpers import time_since_deployment
 
+print("DATABRICKS_TOKEN: ", os.getenv("DATABRICKS_TOKEN"))
+print("DATABRICKS_HOST: ", os.getenv("DATABRICKS_HOST"))
+print("DATABRICKS_API_KEY: ", os.getenv("DATABRICKS_API_KEY"))
+print("CONNECT_SERVER: ", os.getenv("CONNECT_SERVER"))
+print("CONNECT_API_KEY: ", os.getenv("CONNECT_API_KEY"))
+print("CHATLAS_CHAT_PROVIDER: ", os.getenv("CHATLAS_CHAT_PROVIDER"))
+print("CHATLAS_CHAT_ARGS: ", os.getenv("CHATLAS_CHAT_ARGS"))
 
 def fetch_connect_content_list(client: connect.Client):
     print('Fetching content list.')
