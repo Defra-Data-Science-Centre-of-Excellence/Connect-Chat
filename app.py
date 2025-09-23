@@ -147,7 +147,7 @@ def server(input: Inputs, output: Outputs, session: Session):
             content = client.content.get(input.content_selection())
             print(content.content_url)
             # Problem with gatwway is means IP needs replaced with gateway here
-            page = content.content_url.replace('http://10.179.4.74:3939','https://dash-connect-pre.azure.defra.cloud')
+            page = content.content_url.replace('http://10.179.97.5:3939','https://dash-connect-prd.azure.defra.cloud')
             print(page)
             await session.send_custom_message(
                 "update-iframe", {"url": page}
