@@ -82,7 +82,7 @@ def server(input: Inputs, output: Outputs, session: Session):
         if user_session_token:
             try:
                 print('before client call')
-                client = client.with_user_session_token(user_session_token)
+                client = client.with_user_session_token(user_session_token, audience="d4bd6e9b-bed3-475b-a773-d1848e14df69")
                 print('Client worked!')
             except ClientError as err:
                 print('was an error after all')
