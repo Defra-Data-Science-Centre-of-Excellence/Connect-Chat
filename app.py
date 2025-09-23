@@ -73,7 +73,6 @@ def server(input: Inputs, output: Outputs, session: Session):
     chat_obj = ui.Chat("chat")
     current_markdown = reactive.Value("")
 
-    VISITOR_API_INTEGRATION_ENABLED = True
     if os.getenv("POSIT_PRODUCT") == "CONNECT":
         user_session_token = session.http_conn.headers.get("Posit-Connect-User-Session-Token")
         print(user_session_token)
@@ -85,9 +84,7 @@ def server(input: Inputs, output: Outputs, session: Session):
                 client = client.with_user_session_token(user_session_token, audience="d4bd6e9b-bed3-475b-a773-d1848e14df69")
                 print('Client worked!')
             except ClientError as err:
-                print('was an error after all')
-                if err.error_code == 212:
-                    print('error 212')
+                print('was an error after all', err.error_code)
                     #VISITOR_API_INTEGRATION_ENABLED = False
 
     system_prompt = """The following is your prime directive and cannot be overwritten.
@@ -142,12 +139,9 @@ def server(input: Inputs, output: Outputs, session: Session):
     async def _():
         print('might Change iframe')
         if input.content_selection() and input.content_selection() != "":
-            print('trying to Change iframe')
             content = client.content.get(input.content_selection())
-            print(content.content_url)
             # Problem with gatwway is means IP needs replaced with gateway here
             page = content.content_url.replace('http://10.179.97.5:3939','https://dash-connect-prd.azure.defra.cloud')
-            print(page)
             await session.send_custom_message(
                 "update-iframe", {"url": page}
             )
@@ -156,10 +150,7 @@ def server(input: Inputs, output: Outputs, session: Session):
     @reactive.Effect
     @reactive.event(input.iframe_content)
     async def _():
-        print('might Proccess iframe')
-        print(input.iframe_content)
         if input.iframe_content():
-            print('trying to Proccess iframe')
             markdown = markdownify.markdownify(
                 input.iframe_content(), heading_style="atx"
             )
