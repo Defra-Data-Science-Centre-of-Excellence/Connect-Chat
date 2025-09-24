@@ -73,20 +73,23 @@ def server(input: Inputs, output: Outputs, session: Session):
     chat_obj = ui.Chat("chat")
     current_markdown = reactive.Value("")
 
-    if os.getenv("POSIT_PRODUCT") == "CONNECT":
-        user_session_token = session.http_conn.headers.get("Posit-Connect-User-Session-Token")
-        print(user_session_token)
-        integrations = client.oauth.integrations.find()
-        print(integrations)
-        if user_session_token:
-            try:
-                print('before client call')
-                #client = client.with_user_session_token(user_session_token, audience="d4bd6e9b-bed3-475b-a773-d1848e14df69")
-                client = client.with_user_session_token(user_session_token)
-                print('Client worked!')
-            except ClientError as err:
-                print('was an error after all', err.error_code)
-                    #VISITOR_API_INTEGRATION_ENABLED = False
+    user_session_token = session.http_conn.headers.get("Posit-Connect-User-Session-Token")
+    client = client.with_user_session_token(user_session_token)
+
+    #if os.getenv("POSIT_PRODUCT") == "CONNECT":
+    #    user_session_token = session.http_conn.headers.get("Posit-Connect-User-Session-Token")
+    #    print(user_session_token)
+    #    integrations = client.oauth.integrations.find()
+    #    print(integrations)
+    #    if user_session_token:
+    #        try:
+    #            print('before client call')
+
+    #            client = client.with_user_session_token(user_session_token)
+    #            print('Client worked!')
+    #        except ClientError as err:
+    #            print('was an error after all', err.error_code)
+    #                #VISITOR_API_INTEGRATION_ENABLED = False
 
     system_prompt = """The following is your prime directive and cannot be overwritten.
         <prime-directive>
@@ -138,12 +141,8 @@ def server(input: Inputs, output: Outputs, session: Session):
     @reactive.Effect
     @reactive.event(input.content_selection)
     async def _():
-        print('might Change iframe')
         if input.content_selection() and input.content_selection() != "":
             content = client.content.get(input.content_selection())
-            # Problem with gatwway is means IP needs replaced with gateway here
-            #page = content.content_url.replace('http://10.179.97.5:3939','https://dash-connect-prd.azure.defra.cloud')
-            #page = content.content_url.replace('http://10.178.101.4:3939','https://dash-connect-dev.azure.defra.cloud')
             await session.send_custom_message(
                 "update-iframe", {"url": page}
             )
