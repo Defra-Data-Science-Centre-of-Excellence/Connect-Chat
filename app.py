@@ -143,9 +143,8 @@ def server(input: Inputs, output: Outputs, session: Session):
     async def _():
         if input.content_selection() and input.content_selection() != "":
             content = client.content.get(input.content_selection())
-            page = content.content_url()
             await session.send_custom_message(
-                "update-iframe", {"url": page}
+                "update-iframe", {"url": content.content_url}
             )
 
     # Process iframe content when it changes
